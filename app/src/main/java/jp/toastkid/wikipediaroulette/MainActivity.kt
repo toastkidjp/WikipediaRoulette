@@ -1,9 +1,11 @@
 package jp.toastkid.wikipediaroulette
 
+import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
 import android.support.v7.app.AppCompatActivity
+import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import okio.Okio
 
@@ -22,9 +24,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        roulette.setOnClickListener { setNext() }
-        show_page.setOnClickListener { makeCustomTabsIntent().launchUrl(this, makeUrl()) }
+        setUpActions()
+
         setNext()
+    }
+
+    private fun setUpActions() {
+        roulette.setOnClickListener { setNext() }
+
+        show_page.setOnClickListener { makeCustomTabsIntent().launchUrl(this, makeUrl()) }
+
+        share.setOnClickListener {
+            val intent = ShareIntentFactory(
+                    "${roulette.text} - Wikipedia${System.getProperty("line.separator")}${makeUrl()}"
+            )
+            try {
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun setNext() {
@@ -39,6 +58,5 @@ class MainActivity : AppCompatActivity() {
                     .build()
 
     private fun makeUrl() = Uri.parse("https://ja.wikipedia.org/wiki/" + roulette.text)
-
 
 }

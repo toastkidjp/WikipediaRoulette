@@ -47,4 +47,5 @@ dependencies {
     implementation "com.android.support:customtabs:${supportLibVersion}"
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.5"
 }

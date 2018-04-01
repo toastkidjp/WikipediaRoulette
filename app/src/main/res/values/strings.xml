@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">WikipediaRoulette</string>
     <string name="show_page">Show page</string>
+    <string name="share">Share</string>
 </resources>
