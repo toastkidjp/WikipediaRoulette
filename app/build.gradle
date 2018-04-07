@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     byte verMajor  = 0
     byte verMiddle = 0
@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "jp.toastkid.wikipediaroulette"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         if (verMiddle >= 100 || verMinor >= 10_000) {
             throw new IllegalStateException("Middle and Minor version value is allowed under 100.")
         }
@@ -42,7 +42,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    def supportLibVersion = '26.1.0'
+    def supportLibVersion = '27.1.0'
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:customtabs:${supportLibVersion}"
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
