@@ -2,4 +2,8 @@
     <string name="app_name">WikipediaRoulette</string>
     <string name="show_page">Show page</string>
     <string name="share">Share</string>
+    <string name="setting">Setting</string>
+    <string name="exit">Exit</string>
+    <string name="about_app">About App</string>
+    <string name="base_url_wikipedia_article">https://ja.wikipedia.org/wiki/</string>
 </resources>

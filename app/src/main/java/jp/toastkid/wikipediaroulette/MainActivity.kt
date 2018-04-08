@@ -1,10 +1,18 @@
 package jp.toastkid.wikipediaroulette
 
 import android.content.ActivityNotFoundException
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.support.customtabs.CustomTabsIntent
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.net.toUri
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import okio.Okio
@@ -26,17 +34,38 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setUpActions()
 
+        initToolbar(toolbar)
+
         setNext()
     }
+
+    private fun initToolbar(toolbar: Toolbar) {
+        setSupportActionBar(toolbar)
+        toolbar.run {
+            setNavigationIcon(R.drawable.ic_close)
+            setNavigationOnClickListener { finish() }
+            setTitleTextColor(Color.WHITE)
+        }
+        applyTint(toolbar.overflowIcon, Color.WHITE)
+    }
+
+    /**
+     * Apply tint to passed drawable.
+     *
+     * @param icon Drawable
+     * @param fontColor color int
+     */
+    private fun applyTint(icon: Drawable?, @ColorInt fontColor: Int) =
+            icon?.let { DrawableCompat.setTint(it, fontColor) }
 
     private fun setUpActions() {
         roulette.setOnClickListener { setNext() }
 
-        show_page.setOnClickListener { makeCustomTabsIntent().launchUrl(this, makeUrl()) }
+        show_page.setOnClickListener { makeCustomTabsIntent().launchUrl(this, makeUri()) }
 
         share.setOnClickListener {
             val intent = ShareIntentFactory(
-                    "${roulette.text} - Wikipedia${System.getProperty("line.separator")}${makeUrl()}"
+                    "${roulette.text} - Wikipedia${System.getProperty("line.separator")}${makeUri()}"
             )
             try {
                 startActivity(intent)
@@ -57,6 +86,29 @@ class MainActivity : AppCompatActivity() {
                     .addDefaultShareMenuItem()
                     .build()
 
-    private fun makeUrl() = Uri.parse("https://ja.wikipedia.org/wiki/" + roulette.text)
+    private fun makeUri(): Uri =
+            (getString(R.string.base_url_wikipedia_article) + roulette.text).toUri()
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.activity_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean =
+            when (item?.itemId) {
+                R.id.menu_settings -> {
+                    // TODO implements
+                    true
+                }
+                R.id.menu_about_app -> {
+                    // TODO implements
+                    true
+                }
+                R.id.menu_exit -> {
+                    finish()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
 
 }
