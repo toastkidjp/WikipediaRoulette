@@ -1,5 +1,6 @@
 package jp.toastkid.wikipediaroulette
 
+import android.arch.persistence.room.Room
 import android.content.ActivityNotFoundException
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -13,9 +14,16 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.net.toUri
+import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.rxkotlin.toObservable
+import io.reactivex.schedulers.Schedulers
+import jp.toastkid.wikipediaroulette.db.DataBase
+import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistory
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import okio.Okio
+
 
 /**
  * Main activity.
@@ -29,12 +37,20 @@ class MainActivity : AppCompatActivity() {
                 .use { it.readUtf8().split("\n").toList() }
     }
 
+    private lateinit var dataBase: DataBase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUpActions()
 
         initToolbar(toolbar)
+
+        dataBase = Room.databaseBuilder(
+                applicationContext,
+                DataBase::class.java,
+                BuildConfig.APPLICATION_ID
+        ).build()
 
         setNext()
     }
@@ -75,8 +91,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Single.fromCallable { dataBase.rouletteHistoryAccessor().getAll() }
+                .subscribeOn(Schedulers.io())
+                .flatMapObservable { it.toObservable() }
+                .map { it.articleName }
+                .subscribe({ println(it) })
+    }
+
     private fun setNext() {
-        roulette.text = titles.get((titles.size * Math.random()).toInt())
+        val nextArticleName = titles.get((titles.size * Math.random()).toInt())
+        roulette.text = nextArticleName
+        val rouletteHistory = RouletteHistory().apply {
+            articleName = nextArticleName
+            lastDisplayed = System.currentTimeMillis()
+        }
+        Completable.fromAction { dataBase.rouletteHistoryAccessor().insert(rouletteHistory) }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
     }
 
     private fun makeCustomTabsIntent(): CustomTabsIntent =
