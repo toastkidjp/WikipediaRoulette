@@ -15,11 +15,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.net.toUri
 import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import jp.toastkid.wikipediaroulette.db.DataBase
 import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistory
+import jp.toastkid.wikipediaroulette.history.view.ViewHistory
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import okio.Okio
@@ -77,7 +76,17 @@ class MainActivity : AppCompatActivity() {
     private fun setUpActions() {
         roulette.setOnClickListener { setNext() }
 
-        show_page.setOnClickListener { makeCustomTabsIntent().launchUrl(this, makeUri()) }
+        show_page.setOnClickListener {
+            makeCustomTabsIntent().launchUrl(this, makeUri())
+
+            val viewHistory = ViewHistory().also {
+                it.articleName = roulette.text.toString()
+                it.lastDisplayed = System.currentTimeMillis()
+            }
+            Completable.fromAction { dataBase.viewHistoryAccessor().insert(viewHistory) }
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
+        }
 
         share.setOnClickListener {
             val intent = ShareIntentFactory(
@@ -89,15 +98,6 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Single.fromCallable { dataBase.rouletteHistoryAccessor().getAll() }
-                .subscribeOn(Schedulers.io())
-                .flatMapObservable { it.toObservable() }
-                .map { it.articleName }
-                .subscribe({ println(it) })
     }
 
     private fun setNext() {
