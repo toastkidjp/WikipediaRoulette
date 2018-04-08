@@ -19,5 +19,7 @@ gradlew.bat
 app/src/main/res/raw/
 app/release/
 
+projectFilesBackup/
+
 .idea/*
 !.idea/icon.png
