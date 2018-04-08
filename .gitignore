@@ -20,6 +20,7 @@ app/src/main/res/raw/
 app/release/
 
 projectFilesBackup/
+codeiris/
 
 .idea/*
 !.idea/icon.png
