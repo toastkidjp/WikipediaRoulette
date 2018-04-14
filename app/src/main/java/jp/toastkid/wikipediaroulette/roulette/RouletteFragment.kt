@@ -11,14 +11,12 @@ import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
 import android.content.ActivityNotFoundException
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import jp.toastkid.wikipediaroulette.BuildConfig
@@ -87,7 +85,7 @@ class RouletteFragment: Fragment() {
         article_title.setOnClickListener { setNext() }
 
         show_page.setOnClickListener {
-            makeCustomTabsIntent()?.launchUrl(context, makeUri())
+            makeCustomTabsIntent()?.launchUrl(context, UriConverter(context, article_title.text))
 
             val viewHistory = ViewHistory().also {
                 it.articleName = article_title.text.toString()
@@ -100,7 +98,8 @@ class RouletteFragment: Fragment() {
 
         share.setOnClickListener {
             val intent = ShareIntentFactory(
-                    "${article_title.text} - Wikipedia${System.getProperty("line.separator")}${makeUri()}"
+                    "${article_title.text} - Wikipedia${System.getProperty("line.separator")}"
+                            + "${UriConverter(context, article_title.text)}"
             )
             try {
                 startActivity(intent)
@@ -118,9 +117,5 @@ class RouletteFragment: Fragment() {
                         .addDefaultShareMenuItem()
                         .build()
             }
-
-
-    private fun makeUri(): Uri =
-            (getString(R.string.base_url_wikipedia_article) + article_title.text).toUri()
 
 }
