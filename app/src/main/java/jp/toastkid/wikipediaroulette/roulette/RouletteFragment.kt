@@ -12,7 +12,6 @@ import android.arch.persistence.room.Room
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.os.Bundle
-import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +23,7 @@ import jp.toastkid.wikipediaroulette.R
 import jp.toastkid.wikipediaroulette.db.DataBase
 import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistory
 import jp.toastkid.wikipediaroulette.history.view.ViewHistory
+import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.fragment_roulette.*
 import okio.Okio
@@ -85,7 +85,8 @@ class RouletteFragment: Fragment() {
         article_title.setOnClickListener { setNext() }
 
         show_page.setOnClickListener {
-            makeCustomTabsIntent()?.launchUrl(context, UriConverter(context, article_title.text))
+            CustomTabsIntentFactory(context)
+                    ?.launchUrl(context, UriConverter(context, article_title.text))
 
             val viewHistory = ViewHistory().also {
                 it.articleName = article_title.text.toString()
@@ -108,14 +109,5 @@ class RouletteFragment: Fragment() {
             }
         }
     }
-
-    private fun makeCustomTabsIntent(): CustomTabsIntent? =
-            context?.let {
-                CustomTabsIntent.Builder()
-                        .setStartAnimations(it, android.R.anim.fade_in, android.R.anim.fade_out)
-                        .setExitAnimations(it, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                        .addDefaultShareMenuItem()
-                        .build()
-            }
 
 }
