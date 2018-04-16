@@ -37,6 +37,10 @@ android {
             manifestPlaceholders = [app_name: "@string/app_name"]
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+    }
 }
 
 dependencies {
@@ -47,6 +51,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
     implementation "com.android.support:customtabs:${supportLibVersion}"
+    implementation "com.android.support:cardview-v7:${supportLibVersion}"
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'androidx.core:core-ktx:0.3'
@@ -59,5 +64,5 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:1.0.0"
 
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.robolectric:robolectric:3.5"
+    testImplementation "org.robolectric:robolectric:3.8"
 }
