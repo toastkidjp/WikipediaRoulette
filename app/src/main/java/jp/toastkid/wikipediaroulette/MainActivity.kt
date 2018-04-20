@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistoryFragment
 import jp.toastkid.wikipediaroulette.roulette.RouletteFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,17 +21,26 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : AppCompatActivity() {
 
+    private val rouletteFragment: Fragment = RouletteFragment()
+
+    private val rouletteHistoryFragment = RouletteHistoryFragment()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initToolbar(toolbar)
 
-        val fragment: Fragment = RouletteFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack("${fragment.hashCode()}")
-        transaction.commitAllowingStateLoss()    }
+        replaceFragment(rouletteFragment)
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager?.beginTransaction()?.also {
+            it.replace(R.id.container, fragment)
+            it.addToBackStack("${fragment.hashCode()}")
+            it.commitAllowingStateLoss()
+        }
+    }
 
     private fun initToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
@@ -58,6 +68,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean =
             when (item?.itemId) {
+                R.id.menu_roulette_history -> {
+                    replaceFragment(rouletteHistoryFragment)
+                    true
+                }
                 R.id.menu_settings -> {
                     // TODO implements
                     true

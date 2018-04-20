@@ -2,6 +2,7 @@
     <string name="app_name">WikipediaRoulette</string>
     <string name="show_page">Show page</string>
     <string name="share">Share</string>
+    <string name="roulette_history">Roulette History</string>
     <string name="setting">Setting</string>
     <string name="exit">Exit</string>
     <string name="about_app">About App</string>
