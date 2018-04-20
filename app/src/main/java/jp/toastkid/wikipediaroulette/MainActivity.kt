@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistoryFragment
+import jp.toastkid.wikipediaroulette.history.view.ViewHistoryFragment
 import jp.toastkid.wikipediaroulette.roulette.RouletteFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,7 +24,9 @@ class MainActivity : AppCompatActivity() {
 
     private val rouletteFragment: Fragment = RouletteFragment()
 
-    private val rouletteHistoryFragment = RouletteHistoryFragment()
+    private val rouletteHistoryFragment by lazy { RouletteHistoryFragment() }
+
+    private val viewHistoryFragment by lazy { ViewHistoryFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +73,10 @@ class MainActivity : AppCompatActivity() {
             when (item?.itemId) {
                 R.id.menu_roulette_history -> {
                     replaceFragment(rouletteHistoryFragment)
+                    true
+                }
+                R.id.menu_view_history -> {
+                    replaceFragment(viewHistoryFragment)
                     true
                 }
                 R.id.menu_settings -> {
