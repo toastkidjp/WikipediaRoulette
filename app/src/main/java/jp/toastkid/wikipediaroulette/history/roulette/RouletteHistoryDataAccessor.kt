@@ -17,7 +17,7 @@ import android.arch.persistence.room.Query
 @Dao
 interface RouletteHistoryDataAccessor {
 
-    @Query("SELECT * FROM roulettehistory")
+    @Query("SELECT * FROM roulettehistory ORDER BY lastDisplayed DESC")
     fun getAll(): List<RouletteHistory>
 
     @Insert
