@@ -1,17 +1,15 @@
 package jp.toastkid.wikipediaroulette
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.annotation.ColorInt
 import android.support.v4.app.Fragment
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistoryFragment
 import jp.toastkid.wikipediaroulette.history.view.ViewHistoryFragment
+import jp.toastkid.wikipediaroulette.libs.TintApplier
 import jp.toastkid.wikipediaroulette.roulette.RouletteFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -52,17 +50,8 @@ class MainActivity : AppCompatActivity() {
             setNavigationOnClickListener { finish() }
             setTitleTextColor(Color.WHITE)
         }
-        applyTint(toolbar.overflowIcon, Color.WHITE)
+        TintApplier(toolbar.overflowIcon, Color.WHITE)
     }
-
-    /**
-     * Apply tint to passed drawable.
-     *
-     * @param icon Drawable
-     * @param fontColor color int
-     */
-    private fun applyTint(icon: Drawable?, @ColorInt fontColor: Int) =
-            icon?.let { DrawableCompat.setTint(it, fontColor) }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_main, menu)
