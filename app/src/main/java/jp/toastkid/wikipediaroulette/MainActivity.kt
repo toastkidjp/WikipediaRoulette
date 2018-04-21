@@ -13,6 +13,7 @@ import android.view.MenuItem
 import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistoryFragment
 import jp.toastkid.wikipediaroulette.history.view.ViewHistoryFragment
 import jp.toastkid.wikipediaroulette.roulette.RouletteFragment
+import jp.toastkid.wikipediaroulette.setting.SettingFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -27,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private val rouletteHistoryFragment by lazy { RouletteHistoryFragment() }
 
     private val viewHistoryFragment by lazy { ViewHistoryFragment() }
+
+    private val settingFragment by lazy { SettingFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_settings -> {
-                    // TODO implements
+                    replaceFragment(settingFragment)
                     true
                 }
                 R.id.menu_about_app -> {

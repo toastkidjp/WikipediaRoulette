@@ -8,4 +8,8 @@
     <string name="exit">Exit</string>
     <string name="about_app">About App</string>
     <string name="base_url_wikipedia_article">https://ja.wikipedia.org/wiki/</string>
+    <string name="title_licenses">License Information</string>
+    <string name="title_app_version">Version:</string>
+    <string name="title_privacy_policy">Privacy Policy</string>
+    <string name="copyright">© 2018 \@toastkidjp</string>
 </resources>

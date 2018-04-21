@@ -5,5 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="1px"
     android:layout_gravity="bottom"
+    android:layout_marginLeft="44dp"
+    android:layout_marginStart="44dp"
     android:background="@color/divider"
     />
