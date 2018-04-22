@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager?.beginTransaction()?.also {
+            it.setCustomAnimations(R.anim.slide_in_right, 0, 0, android.R.anim.slide_out_right)
             it.replace(R.id.container, fragment)
             it.addToBackStack("${fragment.hashCode()}")
             it.commitAllowingStateLoss()
