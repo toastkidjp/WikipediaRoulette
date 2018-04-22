@@ -21,7 +21,7 @@ object RecyclerViewScroller {
             recyclerView.scrollToPosition(0)
             return
         }
-        recyclerView.smoothScrollToPosition(0)
+        recyclerView.post { recyclerView.smoothScrollToPosition(0) }
     }
 
     fun toBottom(recyclerView: RecyclerView) {
@@ -30,6 +30,6 @@ object RecyclerViewScroller {
             recyclerView.scrollToPosition(itemCount - 1)
             return
         }
-        recyclerView.smoothScrollToPosition(itemCount)
+        recyclerView.post { recyclerView.smoothScrollToPosition(itemCount - 1) }
     }
 }
