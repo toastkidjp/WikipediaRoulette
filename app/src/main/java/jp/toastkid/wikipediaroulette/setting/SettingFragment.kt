@@ -9,13 +9,14 @@ package jp.toastkid.wikipediaroulette.setting
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import jp.toastkid.wikipediaroulette.BuildConfig
 import jp.toastkid.wikipediaroulette.R
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
@@ -44,7 +45,13 @@ class SettingFragment: Fragment() {
         settings_app_version.text = BuildConfig.VERSION_NAME
 
         licenses.setOnClickListener {
-            Snackbar.make(licenses, "TODO Implementation.", Snackbar.LENGTH_SHORT).show()
+            context?.also { activityContext ->
+                val title = activityContext.getString(R.string.title_licenses)
+                startActivity(
+                        Intent(activityContext, OssLicensesMenuActivity::class.java)
+                                .also { it.putExtra("title", title) }
+                )
+            }
         }
 
         settings_privacy_policy.setOnClickListener { showUrl("https://tmblr.co/ZDG7Be2NVdctY") }

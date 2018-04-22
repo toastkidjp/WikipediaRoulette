@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.oss.licenses.plugin'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -52,6 +53,7 @@ dependencies {
     implementation "com.android.support:design:${supportLibVersion}"
     implementation "com.android.support:customtabs:${supportLibVersion}"
     implementation "com.android.support:cardview-v7:${supportLibVersion}"
+    implementation "com.google.android.gms:play-services-oss-licenses:15.0.0"
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'androidx.core:core-ktx:0.3'
