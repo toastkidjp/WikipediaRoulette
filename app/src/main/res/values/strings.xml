@@ -12,4 +12,7 @@
     <string name="title_app_version">Version:</string>
     <string name="title_privacy_policy">Privacy Policy</string>
     <string name="copyright">© 2018 \@toastkidjp</string>
+
+    <string name="to_top">↑</string>
+    <string name="to_bottom">↓</string>
 </resources>
