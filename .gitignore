@@ -24,3 +24,5 @@ codeiris/
 
 .idea/*
 !.idea/icon.png
+
+app/src/main/assets/titles.txt
