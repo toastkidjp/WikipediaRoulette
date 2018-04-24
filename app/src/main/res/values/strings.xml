@@ -2,8 +2,17 @@
     <string name="app_name">WikipediaRoulette</string>
     <string name="show_page">Show page</string>
     <string name="share">Share</string>
+    <string name="roulette_history">Roulette History</string>
+    <string name="view_history">View History</string>
     <string name="setting">Setting</string>
     <string name="exit">Exit</string>
     <string name="about_app">About App</string>
     <string name="base_url_wikipedia_article">https://ja.wikipedia.org/wiki/</string>
+    <string name="title_licenses">License Information</string>
+    <string name="title_app_version">Version:</string>
+    <string name="title_privacy_policy">Privacy Policy</string>
+    <string name="copyright">© 2018 \@toastkidjp</string>
+
+    <string name="to_top">↑</string>
+    <string name="to_bottom">↓</string>
 </resources>
