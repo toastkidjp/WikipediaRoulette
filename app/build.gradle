@@ -67,4 +67,5 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.robolectric:robolectric:3.8"
+    testImplementation 'com.github.sys1yagi:kmockito:0.1.2'
 }
