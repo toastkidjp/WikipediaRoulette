@@ -17,6 +17,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import jp.toastkid.wikipediaroulette.BuildConfig
 import jp.toastkid.wikipediaroulette.R
@@ -27,6 +32,7 @@ import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.fragment_roulette.*
 import okio.Okio
+import timber.log.Timber
 import java.io.InputStream
 import java.util.*
 
@@ -37,15 +43,29 @@ class RouletteFragment: Fragment() {
 
     private lateinit var dataBase: DataBase
 
-    private val titles: List<String> by lazy {
-        val titleStream: InputStream = activity?.assets?.open("titles.txt")
-                ?: return@lazy Collections.emptyList<String>()
-        Okio.buffer(Okio.source(titleStream))
-                .use { return@lazy it.readUtf8().split("\n").toList() }
-    }
+    private val initialCapacity = 1_000_000
+
+    private val titles: MutableList<String> = ArrayList(initialCapacity)
+
+    private val disposables: CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val titleStream: InputStream? = activity?.assets?.open("titles.txt")
+                ?: activity?.assets?.open("sample.txt")
+
+        titleStream?.let {
+            Single.fromCallable { Okio.buffer(Okio.source(titleStream))
+                    .use { it.readUtf8().split("\n") } }
+                    .subscribeOn(Schedulers.io())
+                    .flatMapObservable { array -> Observable.fromIterable(array) }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnTerminate({ setNext() })
+                    .observeOn(Schedulers.io())
+                    .subscribe({ if (titles.size < initialCapacity) titles.add(it) }, Timber::e)
+                    .addTo(disposables)
+        }
 
         val applicationContext: Context = context?.applicationContext ?: return
         dataBase = Room.databaseBuilder(
@@ -65,7 +85,6 @@ class RouletteFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpActions()
-        setNext()
     }
 
     private fun setNext() {
@@ -108,6 +127,11 @@ class RouletteFragment: Fragment() {
                 e.printStackTrace()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
     }
 
 }
