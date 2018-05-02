@@ -45,7 +45,6 @@ class Adapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val rouletteHistory: RouletteHistory = items.get(position)
-        Timber.i("$position / ${items.size} ${rouletteHistory.articleName}")
 
         holder.also {
             it.setTitle(rouletteHistory.articleName)
