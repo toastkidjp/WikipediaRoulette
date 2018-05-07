@@ -21,18 +21,20 @@ import jp.toastkid.wikipediaroulette.roulette.UriConverter
 import timber.log.Timber
 
 /**
+ * View history's item adapter.
+ *
  * @author toastkidjp
  */
 class Adapter(
         private val context: Context,
-        private val rouletteHistoryAccessor: ViewHistoryDataAccessor
+        private val viewHistoryDataAccessor: ViewHistoryDataAccessor
 ): RecyclerView.Adapter<ViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     private val items: List<ViewHistory> = mutableListOf<ViewHistory>()
             .also {
-                Completable.fromAction { it.addAll(rouletteHistoryAccessor.getAll()) }
+                Completable.fromAction { it.addAll(viewHistoryDataAccessor.getAll()) }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ notifyDataSetChanged() }, Timber::e)
@@ -44,12 +46,11 @@ class Adapter(
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val rouletteHistory: ViewHistory = items.get(position)
-        Timber.i("$position / ${items.size} ${rouletteHistory.articleName}")
+        val item: ViewHistory = items.get(position)
 
         holder.also {
-            it.setTitle(rouletteHistory.articleName)
-            it.setTime(DateConverter(rouletteHistory.lastDisplayed))
+            it.setTitle(item.articleName)
+            it.setTime(DateConverter(item.lastDisplayed))
             it.setTapAction { CustomTabsIntentFactory(context)
                     ?.launchUrl(context, UriConverter(context, it)) }
         }
