@@ -12,17 +12,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
+ * Date converter.
+ *
  * @author toastkidjp
  */
 object DateConverter {
 
     private val DATE_FORMAT_HOLDER: ThreadLocal<DateFormat> = object: ThreadLocal<DateFormat>() {
-        override fun initialValue(): DateFormat {
-            return SimpleDateFormat("yyyy/MM/dd(E) HH:mm:ss", Locale.getDefault())
-        }
+        override fun initialValue(): DateFormat =
+                SimpleDateFormat("yyyy/MM/dd(E) HH:mm:ss", Locale.getDefault())
     }
 
-    operator fun invoke(ms: Long): String {
-        return DATE_FORMAT_HOLDER.get().format(Date().also { it.time = ms })
-    }
+    operator fun invoke(ms: Long): String =
+            DATE_FORMAT_HOLDER.get().format(Date().also { it.time = ms })
 }
