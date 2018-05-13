@@ -33,6 +33,7 @@ import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.fragment_roulette.*
 import okio.Okio
 import timber.log.Timber
+import java.io.FileNotFoundException
 import java.io.InputStream
 import java.util.*
 
@@ -52,8 +53,11 @@ class RouletteFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val titleStream: InputStream? = activity?.assets?.open("titles.txt")
-                ?: activity?.assets?.open("sample.txt")
+        val titleStream: InputStream? = try {
+            activity?.assets?.open("titles.txt")
+        } catch (e: FileNotFoundException) {
+            activity?.assets?.open("sample.txt")
+        }
 
         titleStream?.let {
             Single.fromCallable { Okio.buffer(Okio.source(titleStream))
