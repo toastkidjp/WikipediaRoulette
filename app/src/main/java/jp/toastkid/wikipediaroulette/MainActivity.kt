@@ -47,6 +47,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (supportFragmentManager?.fragments?.size == 0) {
+            finish()
+        }
+    }
+
     private fun initToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         toolbar.run {
