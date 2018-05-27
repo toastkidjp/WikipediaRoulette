@@ -32,6 +32,11 @@
             android:layout_height="wrap_content"
             android:text="@string/show_page"
             android:textSize="20sp"
+            android:textColor="#FFF"
+            android:padding="4dp"
+            android:foreground="@drawable/ripple"
+            android:background="@color/colorPrimaryDark"
+            style="?android:buttonBarButtonStyle"
             />
         <Button
             android:id="@+id/share"
@@ -41,6 +46,11 @@
             android:layout_marginStart="20dp"
             android:text="@string/share"
             android:textSize="20sp"
+            android:textColor="#FFF"
+            android:padding="4dp"
+            android:foreground="@drawable/ripple"
+            android:background="@color/colorPrimaryDark"
+            style="?android:buttonBarButtonStyle"
             />
     </LinearLayout>
 
