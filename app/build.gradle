@@ -62,6 +62,8 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
 
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
+
     def roomVersion = '1.1.0'
     implementation "android.arch.persistence.room:runtime:${roomVersion}"
     kapt "android.arch.persistence.room:compiler:${roomVersion}"
@@ -69,4 +71,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "org.robolectric:robolectric:3.8"
     testImplementation 'com.github.sys1yagi:kmockito:0.1.2'
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
