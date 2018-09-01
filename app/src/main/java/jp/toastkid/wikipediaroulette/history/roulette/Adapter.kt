@@ -11,14 +11,13 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import jp.toastkid.wikipediaroulette.R
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.DateConverter
 import jp.toastkid.wikipediaroulette.roulette.UriConverter
-import timber.log.Timber
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 /**
  * @author toastkidjp
@@ -32,10 +31,10 @@ class Adapter(
 
     private val items: List<RouletteHistory> = mutableListOf<RouletteHistory>()
             .also {
-                Completable.fromAction { it.addAll(rouletteHistoryAccessor.getAll()) }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ notifyDataSetChanged() }, Timber::e)
+                launch (UI) {
+                    async { it.addAll(rouletteHistoryAccessor.getAll()) }.await()
+                    notifyDataSetChanged()
+                }
             }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
