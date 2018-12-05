@@ -24,9 +24,10 @@ import jp.toastkid.wikipediaroulette.history.view.ViewHistory
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.fragment_roulette.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import okio.Okio
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -53,12 +54,12 @@ class RouletteFragment: Fragment() {
         }
 
         titleStream?.let {
-            launch (UI) {
-                async {
+            GlobalScope.launch(Dispatchers.Main) {
+                GlobalScope.async {
                     Okio.buffer(Okio.source(titleStream))
                             .use { it.readUtf8().split("\n") }
                             .forEach {
-                                launch (UI) {
+                                GlobalScope.launch(Dispatchers.Main) {
                                     if (titles?.size ?: 0 < initialCapacity) {
                                         titles?.add(it)
                                     }
@@ -104,7 +105,7 @@ class RouletteFragment: Fragment() {
             articleName = nextArticleName
             lastDisplayed = System.currentTimeMillis()
         }
-        launch { dataBase.rouletteHistoryAccessor().insert(rouletteHistory) }
+        GlobalScope.launch { dataBase.rouletteHistoryAccessor().insert(rouletteHistory) }
     }
 
     private fun setUpActions() {
@@ -118,7 +119,7 @@ class RouletteFragment: Fragment() {
                 it.articleName = article_title.text.toString()
                 it.lastDisplayed = System.currentTimeMillis()
             }
-            launch { dataBase.viewHistoryAccessor().insert(viewHistory) }
+            GlobalScope.launch { dataBase.viewHistoryAccessor().insert(viewHistory) }
         }
 
         share.setOnClickListener {

@@ -15,9 +15,10 @@ import jp.toastkid.wikipediaroulette.R
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.DateConverter
 import jp.toastkid.wikipediaroulette.roulette.UriConverter
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 /**
  * View history's item adapter.
@@ -33,8 +34,8 @@ class Adapter(
 
     private val items: List<ViewHistory> = mutableListOf<ViewHistory>()
             .also {
-                launch (UI) {
-                    async { it.addAll(viewHistoryDataAccessor.getAll()) }.await()
+                GlobalScope.launch (Dispatchers.IO) {
+                    GlobalScope.async { it.addAll(viewHistoryDataAccessor.getAll()) }.await()
                     notifyDataSetChanged()
                 }
             }

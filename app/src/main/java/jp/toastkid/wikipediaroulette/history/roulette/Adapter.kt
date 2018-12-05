@@ -15,8 +15,9 @@ import jp.toastkid.wikipediaroulette.R
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.DateConverter
 import jp.toastkid.wikipediaroulette.roulette.UriConverter
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * @author toastkidjp
@@ -30,9 +31,9 @@ class Adapter(
 
     private val items: List<RouletteHistory> = mutableListOf<RouletteHistory>()
             .also {
-                launch {
+                GlobalScope.launch {
                     it.addAll(rouletteHistoryAccessor.getAll())
-                    launch (UI) { notifyDataSetChanged() }
+                    GlobalScope.launch (Dispatchers.Main) { notifyDataSetChanged() }
                 }
             }
 
