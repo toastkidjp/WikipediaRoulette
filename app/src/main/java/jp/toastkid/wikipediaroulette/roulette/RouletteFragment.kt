@@ -90,12 +90,15 @@ class RouletteFragment: Fragment() {
         article_title.setOnClickListener { setNext() }
 
         show_page.setOnClickListener {
+            val uri = UriConverter(context, article_title.text)
             CustomTabsIntentFactory(context)
-                    ?.launchUrl(context, UriConverter(context, article_title.text))
+                    ?.launchUrl(context, uri)
 
             val viewHistory = ViewHistory().also {
                 it.articleName = article_title.text.toString()
                 it.lastDisplayed = System.currentTimeMillis()
+                it.locale = uri.host?.let { host -> host.substring(0, host.indexOf(".")) }
+                        ?: Locale.getDefault().language
             }
             GlobalScope.launch { dataBase.viewHistoryAccessor().insert(viewHistory) }
         }

@@ -17,8 +17,8 @@ import jp.toastkid.wikipediaroulette.libs.DateConverter
 import jp.toastkid.wikipediaroulette.roulette.UriConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * View history's item adapter.
@@ -34,8 +34,8 @@ class Adapter(
 
     private val items: List<ViewHistory> = mutableListOf<ViewHistory>()
             .also {
-                GlobalScope.launch (Dispatchers.IO) {
-                    GlobalScope.async { it.addAll(viewHistoryDataAccessor.getAll()) }.await()
+                GlobalScope.launch (Dispatchers.Main) {
+                    withContext(Dispatchers.IO) { it.addAll(viewHistoryDataAccessor.getAll()) }
                     notifyDataSetChanged()
                 }
             }

@@ -9,6 +9,7 @@ package jp.toastkid.wikipediaroulette.history.view
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import java.util.*
 
 /**
  * @author toastkidjp
@@ -22,4 +23,6 @@ class ViewHistory {
     var articleName: String = ""
 
     var lastDisplayed: Long = 0
+
+    var locale: String = Locale.getDefault().language
 }
