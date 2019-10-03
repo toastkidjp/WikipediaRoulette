@@ -9,18 +9,22 @@ package jp.toastkid.wikipediaroulette.api
 
 import android.support.annotation.WorkerThread
 import jp.toastkid.wikipediaroulette.api.model.Article
+import jp.toastkid.wikipediaroulette.wikipedia.HostGenerator
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
 
 /**
  * @author toastkidjp
  */
 class WikipediaApi {
 
+    private val hostGenerator = HostGenerator()
+
     @WorkerThread
     fun invoke(): Array<Article>? {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://ja.wikipedia.org/")
+                .baseUrl(hostGenerator.invoke(Locale.getDefault()))
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
