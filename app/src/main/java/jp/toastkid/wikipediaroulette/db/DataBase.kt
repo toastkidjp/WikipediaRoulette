@@ -9,18 +9,14 @@ package jp.toastkid.wikipediaroulette.db
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
-import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistory
-import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistoryDataAccessor
 import jp.toastkid.wikipediaroulette.history.view.ViewHistory
 import jp.toastkid.wikipediaroulette.history.view.ViewHistoryDataAccessor
 
 /**
  * @author toastkidjp
  */
-@Database(entities = [RouletteHistory::class, ViewHistory::class], version = 1)
+@Database(entities = [ViewHistory::class], version = 1)
 abstract class DataBase: RoomDatabase() {
-
-    abstract fun rouletteHistoryAccessor(): RouletteHistoryDataAccessor
 
     abstract fun viewHistoryAccessor(): ViewHistoryDataAccessor
 }

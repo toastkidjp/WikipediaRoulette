@@ -20,7 +20,6 @@ import jp.toastkid.wikipediaroulette.BuildConfig
 import jp.toastkid.wikipediaroulette.R
 import jp.toastkid.wikipediaroulette.api.WikipediaApi
 import jp.toastkid.wikipediaroulette.db.DataBase
-import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistory
 import jp.toastkid.wikipediaroulette.history.view.ViewHistory
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
@@ -85,11 +84,6 @@ class RouletteFragment: Fragment() {
         }
         val nextArticleName = titles.get((titles.size * Math.random()).toInt())
         article_title.text = nextArticleName
-        val rouletteHistory = RouletteHistory().apply {
-            articleName = nextArticleName
-            lastDisplayed = System.currentTimeMillis()
-        }
-        GlobalScope.launch { dataBase.rouletteHistoryAccessor().insert(rouletteHistory) }
     }
 
     private fun setUpActions() {
