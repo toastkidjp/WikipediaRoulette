@@ -11,6 +11,6 @@ class HostGeneratorTest {
 
     @Test
     fun test() {
-        assertEquals("https://ja.wikipedia.org/", HostGenerator().invoke(Locale.JAPAN))
+        assertEquals("https://ja.wikipedia.org/", HostGenerator().invoke(Locale.JAPAN.language))
     }
 }

@@ -24,7 +24,7 @@ class WikipediaApi {
     @WorkerThread
     fun invoke(): Array<Article>? {
         val retrofit = Retrofit.Builder()
-                .baseUrl(hostGenerator.invoke(Locale.getDefault()))
+                .baseUrl(hostGenerator.invoke(Locale.getDefault().language))
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 

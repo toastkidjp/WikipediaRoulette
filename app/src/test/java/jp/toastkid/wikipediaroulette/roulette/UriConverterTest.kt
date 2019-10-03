@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import java.util.*
 
 /**
  * @author toastkidjp
@@ -14,7 +15,9 @@ internal class UriConverterTest {
 
     @Test
     fun test() {
-        val uri = UriConverter(RuntimeEnvironment.application, "トマト")
-        assertEquals("https://ja.wikipedia.org/wiki/トマト", uri.toString())
+        assertEquals(
+                "https://${Locale.getDefault().language}.wikipedia.org/wiki/トマト",
+                UriConverter(RuntimeEnvironment.application, "トマト").toString()
+        )
     }
 }

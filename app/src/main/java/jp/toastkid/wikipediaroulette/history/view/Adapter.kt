@@ -51,8 +51,10 @@ class Adapter(
         holder.also {
             it.setTitle(item.articleName)
             it.setTime(DateConverter(item.lastDisplayed))
-            it.setTapAction { CustomTabsIntentFactory(context)
-                    ?.launchUrl(context, UriConverter(context, it)) }
+            it.setTapAction { title ->
+                CustomTabsIntentFactory(context)
+                    ?.launchUrl(context, UriConverter(title, item.locale))
+            }
         }
     }
 

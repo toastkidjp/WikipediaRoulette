@@ -7,7 +7,6 @@
  */
 package jp.toastkid.wikipediaroulette.roulette
 
-import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import jp.toastkid.wikipediaroulette.wikipedia.HostGenerator
@@ -20,7 +19,7 @@ object UriConverter {
 
     private val hostGenerator = HostGenerator()
 
-    operator fun invoke(context: Context?, title: CharSequence?): Uri =
-            "${hostGenerator.invoke(Locale.getDefault())}wiki/$title".toUri()
+    operator fun invoke(title: CharSequence?, language: String = Locale.getDefault().language): Uri =
+            "${hostGenerator.invoke(language)}wiki/$title".toUri()
 
 }

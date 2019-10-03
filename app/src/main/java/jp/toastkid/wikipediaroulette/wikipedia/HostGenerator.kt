@@ -7,12 +7,10 @@
  */
 package jp.toastkid.wikipediaroulette.wikipedia
 
-import java.util.*
-
 /**
  * @author toastkidjp
  */
 class HostGenerator {
 
-    operator fun invoke(locale: Locale) = "https://${locale.language}.wikipedia.org/"
+    operator fun invoke(language: String) = "https://$language.wikipedia.org/"
 }

@@ -90,9 +90,8 @@ class RouletteFragment: Fragment() {
         article_title.setOnClickListener { setNext() }
 
         show_page.setOnClickListener {
-            val uri = UriConverter(context, article_title.text)
-            CustomTabsIntentFactory(context)
-                    ?.launchUrl(context, uri)
+            val uri = UriConverter(article_title.text)
+            CustomTabsIntentFactory(context)?.launchUrl(context, uri)
 
             val viewHistory = ViewHistory().also {
                 it.articleName = article_title.text.toString()
@@ -106,7 +105,7 @@ class RouletteFragment: Fragment() {
         share.setOnClickListener {
             val intent = ShareIntentFactory(
                     "${article_title.text} - Wikipedia${System.getProperty("line.separator")}"
-                            + "${UriConverter(context, article_title.text)}"
+                            + "${UriConverter(article_title.text)}"
             )
             try {
                 startActivity(intent)
