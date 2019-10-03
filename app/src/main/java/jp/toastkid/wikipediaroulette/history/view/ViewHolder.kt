@@ -21,6 +21,8 @@ class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     private val time: TextView = itemView.findViewById(R.id.time)
 
+    private val delete: View = itemView.findViewById(R.id.delete)
+
     fun setTitle(titleText: String) {
         title.text = titleText
     }
@@ -31,5 +33,9 @@ class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     fun setTapAction(action: (String) -> Unit) {
         itemView.setOnClickListener{ action(title.text.toString()) }
+    }
+
+    fun setTapDelete(action: () -> Unit) {
+        delete.setOnClickListener { action() }
     }
 }

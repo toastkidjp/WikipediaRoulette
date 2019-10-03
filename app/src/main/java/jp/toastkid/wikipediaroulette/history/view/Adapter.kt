@@ -8,6 +8,7 @@
 package jp.toastkid.wikipediaroulette.history.view
 
 import android.content.Context
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -32,7 +33,7 @@ class Adapter(
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
-    private val items: List<ViewHistory> = mutableListOf<ViewHistory>()
+    private val items: MutableList<ViewHistory> = mutableListOf<ViewHistory>()
             .also {
                 GlobalScope.launch (Dispatchers.Main) {
                     withContext(Dispatchers.IO) { it.addAll(viewHistoryDataAccessor.getAll()) }
@@ -54,6 +55,16 @@ class Adapter(
             it.setTapAction { title ->
                 CustomTabsIntentFactory(context)
                     ?.launchUrl(context, UriConverter(title, item.locale))
+            }
+            it.setTapDelete {
+                GlobalScope.launch(Dispatchers.Main) {
+                    withContext(Dispatchers.IO) {
+                        viewHistoryDataAccessor.delete(item)
+                        items.remove(item)
+                    }
+                    notifyItemRemoved(position)
+                    Snackbar.make(it.itemView, "Delete ${item.articleName}.", Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }

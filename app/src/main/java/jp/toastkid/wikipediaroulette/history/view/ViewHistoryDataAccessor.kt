@@ -8,6 +8,7 @@
 package jp.toastkid.wikipediaroulette.history.view
 
 import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 
@@ -22,6 +23,9 @@ interface ViewHistoryDataAccessor {
 
     @Insert
     fun insert(entity: ViewHistory)
+
+    @Delete
+    fun delete(entity: ViewHistory)
 
     @Query("DELETE FROM viewhistory")
     fun deleteAll()
