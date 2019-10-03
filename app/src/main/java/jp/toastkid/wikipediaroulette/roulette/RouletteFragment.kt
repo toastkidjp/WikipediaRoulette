@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import jp.toastkid.wikipediaroulette.BuildConfig
 import jp.toastkid.wikipediaroulette.R
+import jp.toastkid.wikipediaroulette.api.WikipediaApi
 import jp.toastkid.wikipediaroulette.db.DataBase
 import jp.toastkid.wikipediaroulette.history.roulette.RouletteHistory
 import jp.toastkid.wikipediaroulette.history.view.ViewHistory
@@ -28,9 +29,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import okio.Okio
-import java.io.FileNotFoundException
-import java.io.InputStream
 import java.util.*
 
 /**
@@ -40,34 +38,20 @@ class RouletteFragment: Fragment() {
 
     private lateinit var dataBase: DataBase
 
-    private val initialCapacity = 1_000_000
+    private val wikipediaApi = WikipediaApi()
 
-    private val titles: MutableList<String>? = ArrayList(initialCapacity)
+    private val titles: MutableList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val titleStream: InputStream? = try {
-            activity?.assets?.open("titles.txt")
-        } catch (e: FileNotFoundException) {
-            activity?.assets?.open("sample.txt")
-        }
-
-        titleStream?.let {
-            GlobalScope.launch(Dispatchers.Main) {
-                GlobalScope.async {
-                    Okio.buffer(Okio.source(titleStream))
-                            .use { it.readUtf8().split("\n") }
-                            .forEach {
-                                GlobalScope.launch(Dispatchers.Main) {
-                                    if (titles?.size ?: 0 < initialCapacity) {
-                                        titles?.add(it)
-                                    }
-                                }
-                            }
-                }.await()
-                setNext()
+        GlobalScope.launch(Dispatchers.Main) {
+            GlobalScope.async {
+                return@async wikipediaApi.invoke()?.filter { it.ns == 0 }?.map { it.title }
             }
+                    .await()
+                    ?.forEach { titles.add(it) }
+            setNext()
         }
 
         val applicationContext: Context = context?.applicationContext ?: return
@@ -96,10 +80,10 @@ class RouletteFragment: Fragment() {
     }
 
     private fun setNext() {
-        if (titles?.size == 0) {
+        if (titles.isEmpty()) {
             return
         }
-        val nextArticleName = titles?.get((titles.size * Math.random()).toInt()) ?: return
+        val nextArticleName = titles.get((titles.size * Math.random()).toInt())
         article_title.text = nextArticleName
         val rouletteHistory = RouletteHistory().apply {
             articleName = nextArticleName
