@@ -11,11 +11,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import jp.toastkid.wikipediaroulette.BuildConfig
 import jp.toastkid.wikipediaroulette.R
@@ -36,7 +37,7 @@ class SettingFragment: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.fragment_setting, null)
+        return inflater.inflate(LAYOUT_ID, null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,4 +68,9 @@ class SettingFragment: Fragment() {
                 ?.launchUrl(activityContext, url.toUri())
     }
 
+    companion object {
+
+        @LayoutRes
+        private const val LAYOUT_ID = R.layout.fragment_setting
+    }
 }
