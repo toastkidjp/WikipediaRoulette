@@ -60,6 +60,7 @@
         android:src="@drawable/ic_delete"
         android:adjustViewBounds="true"
         android:background="@drawable/ripple"
+        android:contentDescription="@string/delete"
         />
 
     <include layout="@layout/common_divider_left_margin"/>

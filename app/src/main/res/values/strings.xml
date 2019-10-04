@@ -13,4 +13,5 @@
 
     <string name="to_top">↑</string>
     <string name="to_bottom">↓</string>
+    <string name="delete">Delete item</string>
 </resources>
