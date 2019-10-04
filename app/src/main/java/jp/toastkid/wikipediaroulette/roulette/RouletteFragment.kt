@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import jp.toastkid.wikipediaroulette.BuildConfig
@@ -51,6 +52,7 @@ class RouletteFragment: Fragment() {
             }
                     .await()
                     ?.forEach { titles.add(it) }
+            progress.isVisible = false
             setNext()
         }
 
