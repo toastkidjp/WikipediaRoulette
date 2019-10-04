@@ -8,11 +8,11 @@
 package jp.toastkid.wikipediaroulette.history.view
 
 import android.annotation.SuppressLint
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.*
 import jp.toastkid.wikipediaroulette.BuildConfig
 import jp.toastkid.wikipediaroulette.R

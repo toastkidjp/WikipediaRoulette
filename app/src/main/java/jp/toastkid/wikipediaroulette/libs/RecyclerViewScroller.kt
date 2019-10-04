@@ -7,7 +7,7 @@
  */
 package jp.toastkid.wikipediaroulette.libs
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * @author toastkidjp
@@ -17,7 +17,7 @@ object RecyclerViewScroller {
     private const val THRESHOLD: Int = 30
 
     fun toTop(recyclerView: RecyclerView) {
-        if (recyclerView.adapter.itemCount > THRESHOLD) {
+        if (recyclerView.adapter?.itemCount ?: 0 > THRESHOLD) {
             recyclerView.scrollToPosition(0)
             return
         }
@@ -25,7 +25,7 @@ object RecyclerViewScroller {
     }
 
     fun toBottom(recyclerView: RecyclerView) {
-        val itemCount = recyclerView.adapter.itemCount
+        val itemCount = recyclerView.adapter?.itemCount ?: 0
         if (itemCount > THRESHOLD) {
             recyclerView.scrollToPosition(itemCount - 1)
             return

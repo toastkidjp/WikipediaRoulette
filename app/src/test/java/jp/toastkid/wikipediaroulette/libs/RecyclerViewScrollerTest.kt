@@ -1,7 +1,7 @@
 package jp.toastkid.wikipediaroulette.libs
 
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.sys1yagi.kmockito.any
 import com.sys1yagi.kmockito.invoked
 import com.sys1yagi.kmockito.mock
@@ -22,11 +22,11 @@ class RecyclerViewScrollerTest {
         val recyclerView: RecyclerView = mock()
         val adapter: Adapter<RecyclerView.ViewHolder> = mock()
         recyclerView.adapter.invoked().thenReturn(adapter)
-        recyclerView.adapter.itemCount.invoked().thenReturn(100)
+        recyclerView.adapter?.itemCount.invoked().thenReturn(100)
         RecyclerViewScroller.toTop(recyclerView)
         recyclerView.verify(times(1)).scrollToPosition(0)
 
-        recyclerView.adapter.itemCount.invoked().thenReturn(29)
+        recyclerView.adapter?.itemCount.invoked().thenReturn(29)
         RecyclerViewScroller.toTop(recyclerView)
         recyclerView.verify(times(1)).post(any())
     }
@@ -36,11 +36,11 @@ class RecyclerViewScrollerTest {
         val recyclerView: RecyclerView = mock()
         val adapter: Adapter<RecyclerView.ViewHolder> = mock()
         recyclerView.adapter.invoked().thenReturn(adapter)
-        recyclerView.adapter.itemCount.invoked().thenReturn(100)
+        recyclerView.adapter?.itemCount.invoked().thenReturn(100)
         RecyclerViewScroller.toBottom(recyclerView)
         recyclerView.verify(times(1)).scrollToPosition(99)
 
-        recyclerView.adapter.itemCount.invoked().thenReturn(29)
+        recyclerView.adapter?.itemCount.invoked().thenReturn(29)
         RecyclerViewScroller.toBottom(recyclerView)
         recyclerView.verify(times(1)).post(any())
     }

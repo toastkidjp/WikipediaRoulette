@@ -8,11 +8,11 @@
 package jp.toastkid.wikipediaroulette.roulette
 
 import android.annotation.SuppressLint
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

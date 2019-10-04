@@ -4,7 +4,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import java.util.*
 
 /**
@@ -17,7 +16,7 @@ internal class UriConverterTest {
     fun test() {
         assertEquals(
                 "https://${Locale.getDefault().language}.wikipedia.org/wiki/トマト",
-                UriConverter(RuntimeEnvironment.application, "トマト").toString()
+                UriConverter("トマト").toString()
         )
     }
 }

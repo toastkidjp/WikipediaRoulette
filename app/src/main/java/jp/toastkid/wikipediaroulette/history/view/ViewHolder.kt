@@ -7,7 +7,7 @@
  */
 package jp.toastkid.wikipediaroulette.history.view
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import jp.toastkid.wikipediaroulette.R

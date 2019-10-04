@@ -7,8 +7,8 @@
  */
 package jp.toastkid.wikipediaroulette.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import jp.toastkid.wikipediaroulette.history.view.ViewHistory
 import jp.toastkid.wikipediaroulette.history.view.ViewHistoryDataAccessor
 

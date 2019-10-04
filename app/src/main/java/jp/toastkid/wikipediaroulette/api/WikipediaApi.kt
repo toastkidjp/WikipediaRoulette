@@ -7,7 +7,7 @@
  */
 package jp.toastkid.wikipediaroulette.api
 
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import jp.toastkid.wikipediaroulette.api.model.Article
 import jp.toastkid.wikipediaroulette.wikipedia.HostGenerator
 import retrofit2.Retrofit
