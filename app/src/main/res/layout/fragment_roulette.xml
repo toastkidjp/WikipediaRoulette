@@ -29,10 +29,10 @@
         android:layout_marginBottom="40dp"
         >
         <Button
-            android:id="@+id/show_page"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/show_page"
+            android:text="@string/next"
             android:textSize="20sp"
             android:textColor="#FFF"
             android:padding="4dp"

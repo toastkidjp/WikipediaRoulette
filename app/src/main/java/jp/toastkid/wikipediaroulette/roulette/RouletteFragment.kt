@@ -94,9 +94,7 @@ class RouletteFragment: Fragment() {
     }
 
     private fun setUpActions() {
-        article_title.setOnClickListener { setNext() }
-
-        show_page.setOnClickListener {
+        article_title.setOnClickListener {
             val uri = UriConverter(article_title.text)
             CustomTabsIntentFactory(context)?.launchUrl(context, uri)
 
@@ -108,6 +106,8 @@ class RouletteFragment: Fragment() {
             }
             GlobalScope.launch { dataBase.viewHistoryAccessor().insert(viewHistory) }
         }
+
+        next.setOnClickListener { setNext() }
 
         share.setOnClickListener {
             val intent = ShareIntentFactory(
