@@ -12,11 +12,13 @@ import java.util.*
 @RunWith(RobolectricTestRunner::class)
 internal class UriConverterTest {
 
+    private val uriConverter = UriConverter()
+
     @Test
     fun test() {
         assertEquals(
                 "https://${Locale.getDefault().language}.wikipedia.org/wiki/トマト",
-                UriConverter("トマト").toString()
+                uriConverter("トマト").toString()
         )
     }
 }

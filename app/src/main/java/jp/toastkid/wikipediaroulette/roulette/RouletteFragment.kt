@@ -41,6 +41,8 @@ class RouletteFragment: Fragment() {
 
     private val wikipediaApi = WikipediaApi()
 
+    private val urlConverter = UriConverter()
+
     private val titles: MutableList<String> = ArrayList()
 
     override fun onAttach(context: Context?) {
@@ -90,7 +92,7 @@ class RouletteFragment: Fragment() {
 
     private fun setUpActions() {
         article_title.setOnClickListener {
-            val uri = UriConverter(article_title.text)
+            val uri = urlConverter(article_title.text)
             CustomTabsIntentFactory(context)?.launchUrl(context, uri)
 
             val viewHistory = ViewHistory().also {
@@ -107,7 +109,7 @@ class RouletteFragment: Fragment() {
         share.setOnClickListener {
             val intent = ShareIntentFactory(
                     "${article_title.text} - Wikipedia${System.getProperty("line.separator")}"
-                            + "${UriConverter(article_title.text)}"
+                            + "${urlConverter(article_title.text)}"
             )
             try {
                 startActivity(intent)

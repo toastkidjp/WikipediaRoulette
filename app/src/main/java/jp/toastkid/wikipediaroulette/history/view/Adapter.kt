@@ -8,10 +8,10 @@
 package jp.toastkid.wikipediaroulette.history.view
 
 import android.content.Context
-import com.google.android.material.snackbar.Snackbar
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import jp.toastkid.wikipediaroulette.R
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.DateConverter
@@ -32,6 +32,8 @@ class Adapter(
 ): RecyclerView.Adapter<ViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
+
+    private val uriConverter = UriConverter()
 
     private val items: MutableList<ViewHistory> = mutableListOf<ViewHistory>()
             .also {
@@ -54,7 +56,7 @@ class Adapter(
             it.setTime(DateConverter(item.lastDisplayed))
             it.setTapAction { title ->
                 CustomTabsIntentFactory(context)
-                    ?.launchUrl(context, UriConverter(title, item.locale))
+                    ?.launchUrl(context, uriConverter(title, item.locale))
             }
             it.setTapDelete {
                 GlobalScope.launch(Dispatchers.Main) {

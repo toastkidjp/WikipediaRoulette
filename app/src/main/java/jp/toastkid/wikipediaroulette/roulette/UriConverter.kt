@@ -15,7 +15,7 @@ import java.util.*
 /**
  * @author toastkidjp
  */
-object UriConverter {
+class UriConverter {
 
     private val hostGenerator = HostGenerator()
 
