@@ -43,18 +43,8 @@ class RouletteFragment: Fragment() {
 
     private val titles: MutableList<String> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        GlobalScope.launch(Dispatchers.Main) {
-            GlobalScope.async {
-                return@async wikipediaApi.invoke()?.filter { it.ns == 0 }?.map { it.title }
-            }
-                    .await()
-                    ?.forEach { titles.add(it) }
-            progress.isVisible = false
-            setNext()
-        }
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
 
         val applicationContext: Context = context?.applicationContext ?: return
         dataBase = Room.databaseBuilder(
@@ -78,6 +68,16 @@ class RouletteFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpActions()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            GlobalScope.async {
+                return@async wikipediaApi.invoke()?.filter { it.ns == 0 }?.map { it.title }
+            }
+                    .await()
+                    ?.forEach { titles.add(it) }
+            progress.isVisible = false
+            setNext()
+        }
     }
 
     private fun setNext() {
