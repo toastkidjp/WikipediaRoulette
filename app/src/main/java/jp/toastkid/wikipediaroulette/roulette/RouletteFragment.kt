@@ -80,11 +80,6 @@ class RouletteFragment: Fragment() {
         setUpActions()
     }
 
-    override fun onResume() {
-        super.onResume()
-        setNext()
-    }
-
     private fun setNext() {
         if (titles.isEmpty()) {
             return
