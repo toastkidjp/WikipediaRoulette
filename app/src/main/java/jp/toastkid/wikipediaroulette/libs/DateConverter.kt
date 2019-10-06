@@ -16,13 +16,13 @@ import java.util.*
  *
  * @author toastkidjp
  */
-object DateConverter {
+class DateConverter {
 
-    private val DATE_FORMAT_HOLDER: ThreadLocal<DateFormat> = object: ThreadLocal<DateFormat>() {
+    private val dateFormatHolder: ThreadLocal<DateFormat> = object: ThreadLocal<DateFormat>() {
         override fun initialValue(): DateFormat =
                 SimpleDateFormat("yyyy/MM/dd(E) HH:mm:ss", Locale.getDefault())
     }
 
     operator fun invoke(ms: Long): String =
-            DATE_FORMAT_HOLDER.get().format(Date().also { it.time = ms })
+            dateFormatHolder.get().format(Date().also { it.time = ms })
 }

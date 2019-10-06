@@ -13,7 +13,7 @@ class DateConverterTest {
      */
     @Test
     fun test() {
-        val dateTimeText = DateConverter(1523757192178L)
+        val dateTimeText = DateConverter()(1523757192178L)
         assertTrue(dateTimeText.startsWith("2018/04/15"))
         assertTrue(dateTimeText.endsWith(" 10:53:12"))
     }

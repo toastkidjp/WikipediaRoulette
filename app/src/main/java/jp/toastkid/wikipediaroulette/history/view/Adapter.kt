@@ -35,6 +35,8 @@ class Adapter(
 
     private val uriConverter = UriConverter()
 
+    private val dateConverter = DateConverter()
+
     private val items: MutableList<ViewHistory> = mutableListOf<ViewHistory>()
             .also {
                 GlobalScope.launch (Dispatchers.Main) {
@@ -53,7 +55,7 @@ class Adapter(
 
         holder.also {
             it.setTitle(item.articleName)
-            it.setTime(DateConverter(item.lastDisplayed))
+            it.setTime(dateConverter(item.lastDisplayed))
             it.setTapAction { title ->
                 CustomTabsIntentFactory(context)
                     ?.launchUrl(context, uriConverter(title, item.locale))
