@@ -24,5 +24,5 @@ class DateConverter {
     }
 
     operator fun invoke(ms: Long): String =
-            dateFormatHolder.get().format(Date().also { it.time = ms })
+            dateFormatHolder.get()?.format(Date().also { it.time = ms }) ?: ""
 }
