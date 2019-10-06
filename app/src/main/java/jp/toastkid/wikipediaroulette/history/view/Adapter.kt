@@ -49,7 +49,7 @@ class Adapter(
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item: ViewHistory = items.get(position)
+        val item: ViewHistory = items[position]
 
         holder.also {
             it.setTitle(item.articleName)
