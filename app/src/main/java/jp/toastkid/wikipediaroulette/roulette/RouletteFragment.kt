@@ -86,7 +86,7 @@ class RouletteFragment: Fragment() {
         if (titles.isEmpty()) {
             return
         }
-        val nextArticleName = titles.get((titles.size * Math.random()).toInt())
+        val nextArticleName = titles[(titles.size * Math.random()).toInt()]
         article_title.text = nextArticleName
     }
 
