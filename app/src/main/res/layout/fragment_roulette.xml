@@ -19,6 +19,7 @@
         tools:text="Hello World!"
         android:gravity="center"
         android:textSize="48sp"
+        android:background="@drawable/ripple"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
