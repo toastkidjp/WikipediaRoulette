@@ -2,11 +2,11 @@ package jp.toastkid.wikipediaroulette
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import jp.toastkid.wikipediaroulette.history.view.ViewHistoryFragment
 import jp.toastkid.wikipediaroulette.libs.TintApplier
 import jp.toastkid.wikipediaroulette.roulette.RouletteFragment
@@ -74,10 +74,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_settings -> {
                     replaceFragment(settingFragment)
-                    true
-                }
-                R.id.menu_about_app -> {
-                    // TODO implements
                     true
                 }
                 R.id.menu_exit -> {
