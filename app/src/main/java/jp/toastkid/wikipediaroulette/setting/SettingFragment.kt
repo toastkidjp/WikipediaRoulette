@@ -56,7 +56,7 @@ class SettingFragment: Fragment() {
 
         settings_privacy_policy.setOnClickListener { showUrl("https://tmblr.co/ZDG7Be2NVdctY") }
 
-        version.setOnClickListener { showUrl("market://details?id=" + BuildConfig.APPLICATION_ID) }
+        version.setOnClickListener { showUrl("market://details?id=${BuildConfig.APPLICATION_ID}") }
 
         copyright.setOnClickListener { showUrl("market://search?q=pub:toastkidjp") }
     }
