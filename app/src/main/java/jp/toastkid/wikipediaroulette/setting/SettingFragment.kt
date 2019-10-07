@@ -8,7 +8,6 @@
 package jp.toastkid.wikipediaroulette.setting
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -63,9 +62,10 @@ class SettingFragment: Fragment() {
     }
 
     private fun showUrl(url: String) {
-        val activityContext: Context? = context
-        CustomTabsIntentFactory.invoke(activityContext)
-                ?.launchUrl(activityContext, url.toUri())
+        context?.let {
+            CustomTabsIntentFactory.invoke(it)
+                    ?.launchUrl(it, url.toUri())
+        }
     }
 
     companion object {
