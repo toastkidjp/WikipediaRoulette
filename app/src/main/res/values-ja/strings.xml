@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Wikipedia Roulette</string>
+    <string name="next">次の記事</string>
+    <string name="share">シェア</string>
+    <string name="view_history">閲覧履歴</string>
+    <string name="setting">設定</string>
+    <string name="exit">終了</string>
+    <string name="about_app">About App</string>
+    <string name="title_licenses">ライセンス情報</string>
+    <string name="title_app_version">バージョン:</string>
+    <string name="title_privacy_policy">プライバシーポリシー</string>
+    <string name="copyright">© 2019 \@toastkidjp</string>
+
+    <string name="to_top">↑</string>
+    <string name="to_bottom">↓</string>
+    <string name="delete">削除</string>
+</resources>
