@@ -87,7 +87,12 @@ class RouletteFragment: Fragment() {
         }
 
         ad.addTo(ad_container)
-        ad.loadAd()
+        GlobalScope.async(Dispatchers.IO) {
+            Thread.sleep(5L)
+            launch(Dispatchers.Main) {
+                ad.loadAd()
+            }
+        }
     }
 
     private fun setNext() {
