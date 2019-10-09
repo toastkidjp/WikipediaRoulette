@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.room.Room
 import jp.toastkid.wikipediaroulette.BuildConfig
 import jp.toastkid.wikipediaroulette.R
+import jp.toastkid.wikipediaroulette.ad.BannerAd
 import jp.toastkid.wikipediaroulette.api.WikipediaApi
 import jp.toastkid.wikipediaroulette.db.DataBase
 import jp.toastkid.wikipediaroulette.history.view.ViewHistory
@@ -45,6 +46,8 @@ class RouletteFragment: Fragment() {
 
     private val titles: MutableList<String> = ArrayList()
 
+    private lateinit var ad: BannerAd
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
@@ -54,6 +57,8 @@ class RouletteFragment: Fragment() {
                 DataBase::class.java,
                 BuildConfig.APPLICATION_ID
         ).build()
+
+        ad = BannerAd(context)
     }
 
     @SuppressLint("InflateParams")
@@ -80,6 +85,9 @@ class RouletteFragment: Fragment() {
             progress.isVisible = false
             setNext()
         }
+
+        ad.addTo(ad_container)
+        ad.loadAd()
     }
 
     private fun setNext() {
@@ -117,6 +125,11 @@ class RouletteFragment: Fragment() {
                 e.printStackTrace()
             }
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        ad.destroy()
     }
 
     companion object {
