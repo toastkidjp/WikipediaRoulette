@@ -43,9 +43,6 @@
 # Ignore annotation used for build tooling.
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
-# Ignore JSR 305 annotations for embedding nullability information.
--dontwarn javax.annotation.**
-
 # Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
 -dontwarn kotlin.Unit
 
@@ -60,4 +57,12 @@
 
 -keepclassmembernames class kotlinx.** {
     volatile <fields>;
+}
+
+-keep public class com.google.android.gms.ads.** {
+   public *;
+}
+
+-keep public class com.google.ads.** {
+   public *;
 }
