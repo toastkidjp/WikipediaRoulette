@@ -15,10 +15,16 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 
 /**
+ * Banner AD facade.
+ *
+ * @param context [Context]
  * @author toastkidjp
  */
 class BannerAd(context: Context) {
 
+    /**
+     * AD view.
+     */
     private var adView: AdView
 
     /**
@@ -31,6 +37,11 @@ class BannerAd(context: Context) {
         adView.adUnitId = AD_UNIT_ID
     }
 
+    /**
+     * Add AD-View to specified view-parent.
+     *
+     * @param parent [ViewGroup]
+     */
     fun addTo(parent: ViewGroup) {
         parent.addView(adView)
     }
@@ -46,14 +57,23 @@ class BannerAd(context: Context) {
         )
     }
 
+    /**
+     * Destroy AD view.
+     */
     fun destroy() {
         adView.destroy()
     }
 
     companion object {
 
+        /**
+         * AD application ID.
+         */
         private const val APPLICATION_AD_ID = "ca-app-pub-5751262573448755~9615709377"
 
+        /**
+         * AD unit ID.
+         */
         private const val AD_UNIT_ID = "ca-app-pub-5751262573448755/8384735799"
 
     }
