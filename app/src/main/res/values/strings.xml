@@ -14,4 +14,5 @@
     <string name="to_top">↑</string>
     <string name="to_bottom">↓</string>
     <string name="delete">Delete item</string>
+    <string name="message_needs_network">You should connect any network.</string>
 </resources>

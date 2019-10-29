@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -77,11 +79,22 @@ class RouletteFragment: Fragment() {
         setUpActions()
 
         GlobalScope.launch(Dispatchers.Main) {
-            GlobalScope.async {
-                return@async wikipediaApi.invoke()?.filter { it.ns == 0 }?.map { it.title }
+            try {
+                GlobalScope.async {
+                    return@async wikipediaApi.invoke()?.filter { it.ns == 0 }?.map { it.title }
+                }
+                        .await()
+                        ?.forEach { titles.add(it) }
+            } catch (e: Exception) {
+                Timber.e(e)
+                Toast.makeText(
+                        requireContext(),
+                        R.string.message_needs_network,
+                        Toast.LENGTH_SHORT
+                ).show()
+                activity?.finish()
+                return@launch
             }
-                    .await()
-                    ?.forEach { titles.add(it) }
             progress.isVisible = false
             setNext()
         }
