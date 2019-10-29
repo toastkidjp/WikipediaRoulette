@@ -25,6 +25,7 @@ import jp.toastkid.wikipediaroulette.ad.BannerAd
 import jp.toastkid.wikipediaroulette.api.WikipediaApi
 import jp.toastkid.wikipediaroulette.db.DataBase
 import jp.toastkid.wikipediaroulette.history.view.ViewHistory
+import jp.toastkid.wikipediaroulette.history.view.ViewHistoryDataAccessor
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.fragment_roulette.*
@@ -40,7 +41,7 @@ import java.util.*
  */
 class RouletteFragment: Fragment() {
 
-    private lateinit var dataBase: DataBase
+    private lateinit var viewHistoryAccessor: ViewHistoryDataAccessor
 
     private val wikipediaApi = WikipediaApi()
 
@@ -54,11 +55,13 @@ class RouletteFragment: Fragment() {
         super.onAttach(context)
 
         val applicationContext: Context = context?.applicationContext ?: return
-        dataBase = Room.databaseBuilder(
+        val dataBase = Room.databaseBuilder(
                 applicationContext,
                 DataBase::class.java,
                 BuildConfig.APPLICATION_ID
         ).build()
+
+        viewHistoryAccessor = dataBase.viewHistoryAccessor()
 
         ad = BannerAd(context)
     }
@@ -127,7 +130,7 @@ class RouletteFragment: Fragment() {
                 it.locale = uri.host?.let { host -> host.substring(0, host.indexOf(".")) }
                         ?: Locale.getDefault().language
             }
-            GlobalScope.launch { dataBase.viewHistoryAccessor().insert(viewHistory) }
+            GlobalScope.launch { viewHistoryAccessor.insert(viewHistory) }
         }
 
         next.setOnClickListener { setNext() }
