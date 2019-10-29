@@ -43,13 +43,13 @@ class RouletteFragment: Fragment() {
 
     private lateinit var viewHistoryAccessor: ViewHistoryDataAccessor
 
+    private lateinit var ad: BannerAd
+
     private val wikipediaApi = WikipediaApi()
 
     private val urlConverter = UriConverter()
 
     private val titles: MutableList<String> = ArrayList()
-
-    private lateinit var ad: BannerAd
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
