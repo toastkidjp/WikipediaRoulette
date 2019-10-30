@@ -26,3 +26,7 @@
 -dontwarn javax.annotation.**
 -keep class javax.annotation.** { *; }
 -dontwarn okio.**
+
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}

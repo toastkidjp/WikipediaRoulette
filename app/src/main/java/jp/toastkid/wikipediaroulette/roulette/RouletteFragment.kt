@@ -16,13 +16,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import jp.toastkid.wikipediaroulette.BuildConfig
 import jp.toastkid.wikipediaroulette.R
 import jp.toastkid.wikipediaroulette.db.DataBase
@@ -31,8 +24,11 @@ import jp.toastkid.wikipediaroulette.history.view.ViewHistory
 import jp.toastkid.wikipediaroulette.libs.CustomTabsIntentFactory
 import jp.toastkid.wikipediaroulette.libs.ShareIntentFactory
 import kotlinx.android.synthetic.main.fragment_roulette.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import okio.Okio
-import timber.log.Timber
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.util.*
@@ -46,9 +42,7 @@ class RouletteFragment: Fragment() {
 
     private val initialCapacity = 1_000_000
 
-    private val titles: MutableList<String> = ArrayList(initialCapacity)
-
-    private val disposables: CompositeDisposable = CompositeDisposable()
+    private val titles: MutableList<String>? = ArrayList(initialCapacity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,15 +54,20 @@ class RouletteFragment: Fragment() {
         }
 
         titleStream?.let {
-            Single.fromCallable { Okio.buffer(Okio.source(titleStream))
-                    .use { it.readUtf8().split("\n") } }
-                    .subscribeOn(Schedulers.io())
-                    .flatMapObservable { array -> Observable.fromIterable(array) }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnTerminate({ setNext() })
-                    .observeOn(Schedulers.io())
-                    .subscribe({ if (titles.size < initialCapacity) titles.add(it) }, Timber::e)
-                    .addTo(disposables)
+            GlobalScope.launch(Dispatchers.Main) {
+                GlobalScope.async {
+                    Okio.buffer(Okio.source(titleStream))
+                            .use { it.readUtf8().split("\n") }
+                            .forEach {
+                                GlobalScope.launch(Dispatchers.Main) {
+                                    if (titles?.size ?: 0 < initialCapacity) {
+                                        titles?.add(it)
+                                    }
+                                }
+                            }
+                }.await()
+                setNext()
+            }
         }
 
         val applicationContext: Context = context?.applicationContext ?: return
@@ -91,18 +90,23 @@ class RouletteFragment: Fragment() {
         setUpActions()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setNext()
+    }
+
     private fun setNext() {
-        val nextArticleName = titles.get((titles.size * Math.random()).toInt())
+        if (titles?.size == 0) {
+            return
+        }
+        val nextArticleName = titles?.get((titles.size * Math.random()).toInt()) ?: return
         article_title.text = nextArticleName
         val rouletteHistory = RouletteHistory().apply {
             articleName = nextArticleName
             lastDisplayed = System.currentTimeMillis()
         }
-        Completable.fromAction { dataBase.rouletteHistoryAccessor().insert(rouletteHistory) }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+        GlobalScope.launch { dataBase.rouletteHistoryAccessor().insert(rouletteHistory) }
     }
-
 
     private fun setUpActions() {
         article_title.setOnClickListener { setNext() }
@@ -115,9 +119,7 @@ class RouletteFragment: Fragment() {
                 it.articleName = article_title.text.toString()
                 it.lastDisplayed = System.currentTimeMillis()
             }
-            Completable.fromAction { dataBase.viewHistoryAccessor().insert(viewHistory) }
-                    .subscribeOn(Schedulers.io())
-                    .subscribe()
+            GlobalScope.launch { dataBase.viewHistoryAccessor().insert(viewHistory) }
         }
 
         share.setOnClickListener {
@@ -131,11 +133,6 @@ class RouletteFragment: Fragment() {
                 e.printStackTrace()
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposables.clear()
     }
 
 }

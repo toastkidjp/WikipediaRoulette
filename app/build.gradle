@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     byte verMajor  = 0
     byte verMiddle = 0
@@ -46,7 +46,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     def supportLibVersion = '27.1.1'
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
@@ -58,9 +58,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'androidx.core:core-ktx:0.3'
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
 
     def roomVersion = '1.1.0'
     implementation "android.arch.persistence.room:runtime:${roomVersion}"
